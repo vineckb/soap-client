@@ -1,17 +1,26 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+      <h1>Hello World</h1>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+const soap = require('soap');
 
 export default {
-  name: 'App',
-  components: {
-    HelloWorld
+  created() {
+    const url = 'https://arm.topsaude.com.br/WS/ServicosARM/wsdl/webServicePortal.wsdl';
+
+    soap.createClient(url, function(err, client) {
+      const args = {
+        cia: 1,
+        cpfNumeroCartao: '07292550932'
+      };
+
+      client.produtoBeneficiario(args, function(err, result) {
+        console.log(result);
+      });
+    });
   }
 }
 </script>
